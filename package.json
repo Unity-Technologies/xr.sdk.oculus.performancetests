@@ -1,0 +1,7 @@
+{
+  "name": "xr.sdk.oculus.performancetests",
+  "displayName": "Performance Tests for xr.sdk.oculus",
+  "version": "0.1.0-preview",
+  "unity": "2019.3",
+  "description": "Performance Tests for xr.sdk.oculus"
+}
