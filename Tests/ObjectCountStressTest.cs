@@ -34,11 +34,17 @@ public class ObjectCountStressTest : OculusPerformanceTestBase
         private int m_StartFrameCount;
         private float m_RenderedFPS;
 
-        private int m_ObjectSpawnCount = 32;
+        
 
         private bool m_SpawnObjects = true;
-        private int m_StabilizationFrames = 72;
 
+#if OCULUS_SDK_PERF
+        private readonly float m_MinimumFPS = 68.0f;
+#else
+        private readonly float m_MinimumFPS = 56.0f;
+#endif
+        private int m_ObjectSpawnCount = 32;
+        private readonly int m_StabilizationFrames = 72;
 
         IEnumerator Start()
         {
@@ -64,7 +70,7 @@ public class ObjectCountStressTest : OculusPerformanceTestBase
                 m_RenderedFPS = ((Time.renderedFrameCount - m_StartFrameCount) / (Time.time - m_StartTime)); // Get's the average over the m_StabilizationFrames
                 ResetFrameTime(); // reset so we can get a new average
 
-                if (m_RenderedFPS < 68.0f)
+                if (m_RenderedFPS < m_MinimumFPS)
                 {
                     if (m_ObjectSpawnCount == 1)
                         break;
