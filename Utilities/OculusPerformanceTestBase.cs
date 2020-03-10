@@ -73,4 +73,54 @@ public class OculusPerformanceTestBase
 
         yield return SceneManager.UnloadSceneAsync(CoolDownSceneName);
     }
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+    private static AndroidJavaObject _androidActivity;
+    private static AndroidJavaObject GetAndroidActivity()
+    {
+        if (_androidActivity == null)
+        {
+            var actClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+            _androidActivity = actClass.GetStatic<AndroidJavaObject>("currentActivity");
+        }
+
+        return _androidActivity;
+    }
+
+    public static AndroidJavaObject GetAndroidIntent()
+    {
+        AndroidJavaObject androidActivity = GetAndroidActivity();
+        AndroidJavaObject context = androidActivity.Call<AndroidJavaObject>("getApplicationContext");
+        AndroidJavaObject intentFilter = new AndroidJavaObject("android.content.IntentFilter", "android.intent.action.BATTERY_CHANGED");
+
+        return context.Call<AndroidJavaObject>("registerReceiver", null, intentFilter);
+    }
+#endif
+
+    public static float GetBatteryTemp()
+    {
+#if UNITY_ANDROID && !UNITY_EDITOR
+        AndroidJavaObject intent = GetAndroidIntent();
+        float temp = intent.Call<int>("getIntExtra", "temperature", 0) / 10.0f; // temp now
+        return temp;
+#elif UNITY_IOS && !UNITY_EDITOR
+        //return GetBatteryTempiOS();
+        return 0f;
+#else
+        return 0f;
+#endif
+    }
+
+    public static bool HasDeviceOverheated()
+    {
+        float temp = GetBatteryTemp();
+
+        if (Application.platform == RuntimePlatform.Android)
+            return temp > 28.5f;
+
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
+            return temp > 0.0f;
+
+        return false;
+    }
 }
