@@ -87,7 +87,7 @@ public class ObjectCountStressTest : OculusPerformanceTestBase
             }
 
             Measure.Custom(ObjectCount, StressTestFactory.GetObjectCount());
-            Measure.Custom(DeviceTemperature, GetBatteryTemp());
+            Measure.Custom(DeviceTemperature, OculusStats.AdaptivePerformance.BatteryTemp);
             IsTestFinished = true;
         }
 

@@ -70,7 +70,7 @@ public class OculusStatsTests : OculusPerformanceTestBase
                 Measure.Custom(CompositorGPUTIme, OculusStats.PerfMetrics.CompositorGPUTime * 1000);
                 Measure.Custom(AppGPUTime, OculusStats.PerfMetrics.AppGPUTime * 1000);
 #endif
-                Measure.Custom(DeviceTemperature, GetBatteryTemp());
+                Measure.Custom(DeviceTemperature, OculusStats.AdaptivePerformance.BatteryTemp);
             }
         }
     }
