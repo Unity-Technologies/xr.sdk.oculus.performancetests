@@ -14,6 +14,7 @@ public class ObjectCountStressTest : OculusPerformanceTestBase
     [Category("XR")]
     [Category("Performance")]
     [Category("OCULUS_XRSDK")]
+    [Category("URP")]
     [Timeout(500000)]
     [PerformanceTestSource("ObjectCountStressTests")]
     public IEnumerator PerformObjectCountStressTest(string scene)
