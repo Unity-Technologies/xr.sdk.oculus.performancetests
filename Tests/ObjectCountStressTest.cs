@@ -28,6 +28,9 @@ public class ObjectCountStressTest : OculusPerformanceTestBase
     {
         private readonly SampleGroupDefinition ObjectCount = new SampleGroupDefinition("Number Of Objects", SampleUnit.None, increaseIsBetter: true);
         private readonly SampleGroupDefinition DeviceTemperature = new SampleGroupDefinition("Device Temperature", SampleUnit.None);
+#if OCULUS_SDK_PERF
+        private readonly SampleGroupDefinition XRDeviceTemperature = new SampleGroupDefinition("XRDevice Temperature", SampleUnit.None);
+#endif // OCULUS_SDK_PERF
 
         public bool IsTestFinished { get; set; }
 
@@ -88,6 +91,9 @@ public class ObjectCountStressTest : OculusPerformanceTestBase
 
             Measure.Custom(ObjectCount, StressTestFactory.GetObjectCount());
             Measure.Custom(DeviceTemperature, OculusStats.AdaptivePerformance.BatteryTemp);
+#if OCULUS_SDK_PERF
+            Measure.Custom(XRDeviceTemperature, OculusStats.AdaptivePerformance.BatteryTempXR);
+#endif // OCULUS_SDK_PERF
             IsTestFinished = true;
         }
 
