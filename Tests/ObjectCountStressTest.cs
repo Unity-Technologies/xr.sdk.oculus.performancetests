@@ -28,6 +28,7 @@ public class ObjectCountStressTest : OculusPerformanceTestBase
     public class ObjectCountStressTestMonoBehaviour : MonoBehaviour, IMonoBehaviourTest
     {
         private readonly SampleGroupDefinition ObjectCount = new SampleGroupDefinition("Number Of Objects", SampleUnit.None, increaseIsBetter: true);
+        private readonly SampleGroupDefinition BatteryTemperature = new SampleGroupDefinition("Battery Temperature", SampleUnit.None);
 
         public bool IsTestFinished { get; set; }
 
@@ -87,6 +88,7 @@ public class ObjectCountStressTest : OculusPerformanceTestBase
             }
 
             Measure.Custom(ObjectCount, StressTestFactory.GetObjectCount());
+            Measure.Custom(BatteryTemperature, OculusStats.AdaptivePerformance.BatteryTemp);
             IsTestFinished = true;
         }
 
