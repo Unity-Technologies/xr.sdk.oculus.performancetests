@@ -43,7 +43,7 @@ public class OculusStatsTests : OculusPerformanceTestBase
         private readonly SampleGroupDefinition CompositorGPUTIme = new SampleGroupDefinition("Compositor GPU Time", SampleUnit.Millisecond);
         private readonly SampleGroupDefinition AppGPUTime = new SampleGroupDefinition("App GPU Time", SampleUnit.Millisecond);
 #endif
-        private readonly SampleGroupDefinition DeviceTemperature = new SampleGroupDefinition("Device Temperature", SampleUnit.None);
+        private readonly SampleGroupDefinition BatteryTemperature = new SampleGroupDefinition("Battery Temperature", SampleUnit.None);
         public int numSampleFrames = 1000;        
         public bool IsTestFinished { get; set; }
 
@@ -70,7 +70,7 @@ public class OculusStatsTests : OculusPerformanceTestBase
                 Measure.Custom(CompositorGPUTIme, OculusStats.PerfMetrics.CompositorGPUTime * 1000);
                 Measure.Custom(AppGPUTime, OculusStats.PerfMetrics.AppGPUTime * 1000);
 #endif
-                Measure.Custom(DeviceTemperature, OculusStats.AdaptivePerformance.BatteryTemp);
+                Measure.Custom(BatteryTemperature, OculusStats.AdaptivePerformance.BatteryTemp);
             }
         }
     }
