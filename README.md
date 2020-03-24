@@ -1,4 +1,4 @@
-# Running the Oculus Performance Tests
+# Running the Oculus Performance Tests with Universal Render Pipeline
 
 ### Guidelines for adding tests:
 - In general, do not attach a tracked pose driver to the camera. The input tracking will throw off results.
