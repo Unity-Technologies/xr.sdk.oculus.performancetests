@@ -11,7 +11,7 @@ public class OculusStatsTests : OculusPerformanceTestBase
         new SampleGroupDefinition("Render.Mesh")
     };
 
-    [Version("5")]
+    [Version("6")]
     [UnityTest, Performance]
     [Category("XR")]
     [Category("Performance")]
@@ -21,14 +21,12 @@ public class OculusStatsTests : OculusPerformanceTestBase
     public IEnumerator StatsTest(string scene)
     {
         yield return SetupTestRun(scene);
-        using (Measure.Scope())
+
+        using (Measure.Frames().Scope())
         {
-            using (Measure.Frames().Scope())
+            using (Measure.ProfilerMarkers(ProfilerStats))
             {
-                using (Measure.ProfilerMarkers(ProfilerStats))
-                {
-                    yield return new MonoBehaviourTest<StatsTestMonobehavior>();
-                }
+                yield return new MonoBehaviourTest<StatsTestMonobehavior>();
             }
         }
         yield return TearDownTestRun(scene);
