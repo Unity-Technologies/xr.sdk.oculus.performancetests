@@ -9,7 +9,7 @@ using System.Text;
 
 public class ObjectCountStressTest : OculusPerformanceTestBase
 {
-    [Version("5")]
+    [Version("6")]
     [UnityTest, Performance]
     [Category("XR")]
     [Category("Performance")]
