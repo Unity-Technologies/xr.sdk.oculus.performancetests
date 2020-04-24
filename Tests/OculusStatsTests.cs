@@ -1,8 +1,8 @@
-﻿using System.Collections;
-using NUnit.Framework;
-using Unity.PerformanceTesting;
+﻿using NUnit.Framework;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.TestTools;
+using Unity.PerformanceTesting;
 
 public class OculusStatsTests : OculusPerformanceTestBase
 {
@@ -11,7 +11,7 @@ public class OculusStatsTests : OculusPerformanceTestBase
         new SampleGroupDefinition("Render.Mesh")
     };
 
-    [Version("6")]
+    [Version("7")]
     [UnityTest, Performance]
     [Category("XR")]
     [Category("Performance")]
@@ -33,7 +33,7 @@ public class OculusStatsTests : OculusPerformanceTestBase
         yield return TearDownTestRun(scene);
     }
 
-    public class StatsTestMonobehavior : MonoBehaviour, IMonoBehaviourTest
+    public class StatsTestMonobehavior : OculusPerformanceMonobehaviorBase, IMonoBehaviourTest
     {
 #if OCULUS_SDK_PERF
         private readonly SampleGroupDefinition GPUUtilization = new SampleGroupDefinition("GPU Utilization", SampleUnit.None);
@@ -43,7 +43,7 @@ public class OculusStatsTests : OculusPerformanceTestBase
         private readonly SampleGroupDefinition AppGPUTime = new SampleGroupDefinition("App GPU Time", SampleUnit.Millisecond);
 #endif
         private readonly SampleGroupDefinition BatteryTemperature = new SampleGroupDefinition("Battery Temperature", SampleUnit.None);
-        public int numSampleFrames = 1000;        
+        public int numSampleFrames = 1000;
         public bool IsTestFinished { get; set; }
 
         IEnumerator Start()

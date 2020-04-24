@@ -1,15 +1,14 @@
-﻿using System.Collections;
-using UnityEngine;
-using UnityEngine.UI;
-
-using NUnit.Framework;
-using Unity.PerformanceTesting;
-using UnityEngine.TestTools;
+﻿using NUnit.Framework;
+using System.Collections;
 using System.Text;
+using UnityEngine;
+using UnityEngine.TestTools;
+using UnityEngine.UI;
+using Unity.PerformanceTesting;
 
 public class ObjectCountStressTest : OculusPerformanceTestBase
 {
-    [Version("6")]
+    [Version("7")]
     [UnityTest, Performance]
     [Category("XR")]
     [Category("Performance")]
@@ -25,8 +24,9 @@ public class ObjectCountStressTest : OculusPerformanceTestBase
     }
 
 
-    public class ObjectCountStressTestMonoBehaviour : MonoBehaviour, IMonoBehaviourTest
+    public class ObjectCountStressTestMonoBehaviour : OculusPerformanceMonobehaviorBase, IMonoBehaviourTest
     {
+        private readonly SampleGroupDefinition FPS = new SampleGroupDefinition("FPS", SampleUnit.None, increaseIsBetter: true);
         private readonly SampleGroupDefinition ObjectCount = new SampleGroupDefinition("Number Of Objects", SampleUnit.None, increaseIsBetter: true);
         private readonly SampleGroupDefinition BatteryTemperature = new SampleGroupDefinition("Battery Temperature", SampleUnit.None);
 
@@ -36,11 +36,9 @@ public class ObjectCountStressTest : OculusPerformanceTestBase
         private int m_StartFrameCount;
         private float m_RenderedFPS;
 
-        
-
         private bool m_SpawnObjects = true;
 
-#if OCULUS_SDK_PERF
+#if OCULUS_SDK_PERF || OCULUS_BUILTIN_PERF
         private readonly float m_MinimumFPS = 68.0f;
 #else
         private readonly float m_MinimumFPS = 56.0f;
@@ -87,6 +85,7 @@ public class ObjectCountStressTest : OculusPerformanceTestBase
                 }
             }
 
+            Measure.Custom(FPS, m_RenderedFPS);
             Measure.Custom(ObjectCount, StressTestFactory.GetObjectCount());
             Measure.Custom(BatteryTemperature, OculusStats.AdaptivePerformance.BatteryTemp);
             IsTestFinished = true;
