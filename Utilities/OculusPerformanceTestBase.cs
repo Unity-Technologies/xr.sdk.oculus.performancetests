@@ -1,7 +1,7 @@
 ﻿using System.Collections;
-using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.XR;
 
 public class OculusPerformanceTestBase
 {
@@ -18,9 +18,6 @@ public class OculusPerformanceTestBase
     /// </summary>
     /// <param name="scene">The scene to meaure perforance against</param>
     /// <returns></returns>
-
-
-    
     protected IEnumerator SetupTestRun(string scene)
     {
         // TODO, even though we're setting these values in ADB, the values always come back as 2. JJ to follow up via Favro card
@@ -53,7 +50,7 @@ public class OculusPerformanceTestBase
     }
 
     void SetActiveScene(string sceneName)
-    {
+    {   
         var scene = SceneManager.GetSceneByName(sceneName);
         SceneManager.SetActiveScene(scene);
     }
@@ -72,5 +69,29 @@ public class OculusPerformanceTestBase
         Application.targetFrameRate = previousTargetFrameRate;
 
         yield return SceneManager.UnloadSceneAsync(CoolDownSceneName);
+    }
+}
+
+public class OculusPerformanceMonobehaviorBase : MonoBehaviour
+{
+    void Awake()
+    {
+#if ENABLE_VR && UNITY_2017_1_OR_NEWER
+        if (XRSettings.enabled)
+        {
+            var thisCamera = Camera.main.gameObject.GetComponent<Camera>();
+            if (thisCamera != null)
+            {
+                XRDevice.DisableAutoXRCameraTracking(thisCamera, true);
+            
+                // Reset orientation of the Camera after disabling tracking
+                Transform camTransform = thisCamera.transform;
+                camTransform.position = Vector3.up + (Vector3.back * 10);
+                camTransform.forward = Vector3.forward;
+                camTransform.rotation = Quaternion.identity;
+                camTransform.SetParent(thisCamera.transform, true);
+            }
+        }
+#endif     
     }
 }
