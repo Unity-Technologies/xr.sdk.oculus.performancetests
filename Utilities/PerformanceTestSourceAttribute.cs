@@ -52,7 +52,7 @@ public class PerformanceTestSource : Attribute, ITestBuilder
 
         suite.Properties.Set("TestType", this.TestSceneRoot);
 
-        Console.WriteLine("Generated {0} graphics test cases.", results.Count);
+        Console.WriteLine("Generated {0} performance test cases.", results.Count);
         return results;
     }
     
