@@ -3,7 +3,6 @@ using System.Collections;
 using System.Text;
 using UnityEngine;
 using UnityEngine.TestTools;
-using UnityEngine.UI;
 using Unity.PerformanceTesting;
 
 public class ObjectCountStressTest : OculusPerformanceTestBase
@@ -48,9 +47,6 @@ public class ObjectCountStressTest : OculusPerformanceTestBase
 
         IEnumerator Start()
         {
-            StringBuilder sb = new StringBuilder();
-            Text debugText = (Text)FindObjectOfType(typeof(Text));
-
             GameObject objectToSpawn = GameObject.Find("Prototype");
 
             ResetFrameTime();
