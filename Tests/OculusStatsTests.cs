@@ -7,8 +7,10 @@ using Unity.PerformanceTesting;
 public class OculusStatsTests : OculusPerformanceTestBase
 {
     protected SampleGroupDefinition[] ProfilerStats = {
+#if OCULUS_SDK_PERF        
         new SampleGroupDefinition("Camera.Render"),
         new SampleGroupDefinition("Render.Mesh")
+#endif
     };
 
     [Version("7")]

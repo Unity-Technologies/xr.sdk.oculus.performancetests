@@ -38,7 +38,7 @@ public class ObjectCountStressTest : OculusPerformanceTestBase
 #if OCULUS_SDK_PERF || OCULUS_BUILTIN_PERF
         private readonly float m_MinimumFPS = 68.0f;
 #else
-        private readonly float m_MinimumFPS = 56.0f;
+        private readonly float m_MinimumFPS = 29.95f;
 #endif
         private int m_ObjectSpawnCount = 32;
         private readonly int m_StabilizationFrames = 72;
@@ -66,8 +66,8 @@ public class ObjectCountStressTest : OculusPerformanceTestBase
 
                 if (m_RenderedFPS < m_MinimumFPS)
                 {
-                    if (m_ObjectSpawnCount == 1)
-                         break;
+                    if (m_ObjectSpawnCount <= 1 || !m_SpawnObjects)
+                        break;
                     m_SpawnObjects = false;
                 }
                 else
