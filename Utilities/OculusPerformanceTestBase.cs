@@ -16,9 +16,9 @@ public class OculusPerformanceTestBase
     /// <summary>
     ///  This method will allow the device to cooldown then load test scene. Finally it will allow the scene to settle before returning.
     /// </summary>
-    /// <param name="scene">The scene to meaure perforance against</param>
+    /// <param name="sceneName">The scene to meaure perforance against</param>
     /// <returns></returns>
-    protected IEnumerator SetupTestRun(string scene)
+    protected IEnumerator SetupTestRun(string sceneName)
     {
         // TODO, even though we're setting these values in ADB, the values always come back as 2. JJ to follow up via Favro card
         //var expCpuLevel = 3;
@@ -34,23 +34,28 @@ public class OculusPerformanceTestBase
         //    actGpuLevel,
         //    string.Format("Expected GPU Level for the test device to be {0}, but is {1}. Lock the GPU level via command line with `adb shell setprop debug.oculus.gpuLevel 3`", expGpuLevel, actGpuLevel));
         yield return CoolDown();
-        yield return StartTestRun(scene);
+        yield return StartTestRun(sceneName);
     }
 
-    protected IEnumerator TearDownTestRun(string scene)
+    protected IEnumerator TearDownTestRun(string sceneName)
     {
-        yield return SceneManager.UnloadSceneAsync(scene);
+        var activeScene = SceneManager.GetActiveScene();
+        if (activeScene.isLoaded)
+        {
+            yield return SceneManager.UnloadSceneAsync(activeScene, UnloadSceneOptions.UnloadAllEmbeddedSceneObjects);
+        }
+        yield return new WaitForSecondsRealtime(2);
     }
     
-    IEnumerator StartTestRun(string scene)
+    IEnumerator StartTestRun(string sceneName)
     {
-        yield return SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive);
-        SetActiveScene(scene);
+        yield return SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+        SetActiveScene(sceneName);
         yield return new WaitForSecondsRealtime(SettleTime);
     }
 
     void SetActiveScene(string sceneName)
-    {   
+    {
         var scene = SceneManager.GetSceneByName(sceneName);
         SceneManager.SetActiveScene(scene);
     }
@@ -61,7 +66,11 @@ public class OculusPerformanceTestBase
         int previousTargetFrameRate = Application.targetFrameRate;
         Application.targetFrameRate = 1;
 
-        yield return SceneManager.LoadSceneAsync(CoolDownSceneName, LoadSceneMode.Additive);
+        var scene = SceneManager.GetSceneByName(CoolDownSceneName);
+        if(!scene.isLoaded)
+        {
+            yield return SceneManager.LoadSceneAsync(CoolDownSceneName, LoadSceneMode.Additive);
+        }
         SetActiveScene(CoolDownSceneName);
         yield return new WaitForSecondsRealtime(CoolOffDuration);
 
@@ -83,7 +92,7 @@ public class OculusPerformanceMonobehaviorBase : MonoBehaviour
             if (thisCamera != null)
             {
                 XRDevice.DisableAutoXRCameraTracking(thisCamera, true);
-            
+
                 // Reset orientation of the Camera after disabling tracking
                 Transform camTransform = thisCamera.transform;
                 camTransform.position = Vector3.up + (Vector3.back * 10);
@@ -92,6 +101,6 @@ public class OculusPerformanceMonobehaviorBase : MonoBehaviour
                 camTransform.SetParent(thisCamera.transform, true);
             }
         }
-#endif     
+#endif
     }
 }
