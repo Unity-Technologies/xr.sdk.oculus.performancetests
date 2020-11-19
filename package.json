@@ -5,10 +5,9 @@
   "unity": "2019.3",
   "description": "Performance Tests for xr.sdk.oculus",
   "keywords": [],
-	"dependencies": {
-	},
+	"dependencies": {},
 	"repository": {
 		"type": "git",
 		"url": "https://github.cds.internal.unity3d.com/unity/xr.sdk.oculus.performancetests"
-}
+  }
 }

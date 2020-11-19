@@ -1,8 +1,8 @@
 {
     "name": "Utilities",
     "references": [
-        "UnityEngine.TestRunner",
-        "com.unity.xr.oculusperformanceutility"
+        "com.unity.xr.oculusperformanceutility",
+        "UnityEngine.TestRunner"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

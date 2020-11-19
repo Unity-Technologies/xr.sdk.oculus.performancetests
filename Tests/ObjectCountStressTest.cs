@@ -12,6 +12,7 @@ public class ObjectCountStressTest : OculusPerformanceTestBase
     [Category("XR")]
     [Category("Performance")]
     [Category("OCULUS_XRSDK")]
+    [Category("URP")]
     [Timeout(500000)]
     [PerformanceTestSource("ObjectCountStressTests")]
     public IEnumerator PerformObjectCountStressTest(string scene)
@@ -21,6 +22,7 @@ public class ObjectCountStressTest : OculusPerformanceTestBase
         yield return TearDownTestRun(scene);
     }
 
+
     public class ObjectCountStressTestMonoBehaviour : OculusPerformanceMonobehaviorBase, IMonoBehaviourTest
     {
         private readonly SampleGroupDefinition FPS = new SampleGroupDefinition("FPS", SampleUnit.None, increaseIsBetter: true);
@@ -28,7 +30,7 @@ public class ObjectCountStressTest : OculusPerformanceTestBase
         private readonly SampleGroupDefinition BatteryTemperature = new SampleGroupDefinition("Battery Temperature", SampleUnit.None);
 
         public bool IsTestFinished { get; set; }
-        
+
         private float m_StartTime;
         private int m_StartFrameCount;
         private float m_RenderedFPS;

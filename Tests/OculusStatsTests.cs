@@ -18,6 +18,7 @@ public class OculusStatsTests : OculusPerformanceTestBase
     [Category("XR")]
     [Category("Performance")]
     [Category("OCULUS_XRSDK")]
+    [Category("URP")]
     [Timeout(120000)]
     [PerformanceTestSource("StatsTests")]
     public IEnumerator StatsTest(string scene)
